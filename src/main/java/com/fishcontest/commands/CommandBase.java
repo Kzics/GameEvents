@@ -28,7 +28,7 @@ public abstract class CommandBase implements CommandExecutor {
                 subCommand.execute(sender, args);
                 return true;
             }
-            subCommands.get("help").execute(sender, args);
+            //subCommands.get("help").execute(sender, args);
         }
         return false;
     }

@@ -1,6 +1,9 @@
 package com.fishcontest.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public class FishContestConfig {
 
@@ -17,7 +20,11 @@ public class FishContestConfig {
         return fileConfiguration.getInt("fish-contest.duration");
     }
 
-    public int getReward(){
-        return fileConfiguration.getInt("fish-contest.reward");
+    public List<ItemStack> getRewards(){
+        return (List<ItemStack>) fileConfiguration.getList("fish-contest.rewards");
+    }
+
+    public int getWinnersAmount(){
+        return fileConfiguration.getInt("fish-contest.winners");
     }
 }

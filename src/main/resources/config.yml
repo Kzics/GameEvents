@@ -1,0 +1,5 @@
+fish-contest:
+  description: "Fish Contest"
+  duration: 80
+  winners: 3
+  rewards:

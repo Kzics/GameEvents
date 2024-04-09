@@ -2,6 +2,7 @@ package com.fishcontest.commands.fishcontest.subcommands;
 
 import com.fishcontest.Main;
 import com.fishcontest.commands.ICommand;
+import com.fishcontest.config.FishContestConfig;
 import com.fishcontest.events.FishingContest;
 import com.fishcontest.events.GameEvent;
 import com.fishcontest.utils.ColorsUtil;
@@ -31,16 +32,9 @@ public class StartCommand implements ICommand {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
-        if(args.length != 1){
-            sender.sendMessage(ColorsUtil.translate.apply("&cUsage: /fishcontest start <duration>"));
-            return;
-        }
-        int duration = Integer.parseInt(args[0]);
+        FishingContest fishingContest = new FishingContest(new FishContestConfig(main.getConfig()));
 
-
-        final String description = "Compete against other players to catch the most fish!";
-        FishingContest fishingContest = new FishingContest("Fishing Contest", description ,duration);
-
+        main.getEventsManager().addEvent(fishingContest);
         main.getEventsManager().startEvent(fishingContest);
     }
 }

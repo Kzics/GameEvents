@@ -9,7 +9,7 @@ import org.bukkit.command.CommandSender;
 public class FishContestCommand extends CommandBase {
 
     public FishContestCommand(final Main main){
-        registerSubCommand("start", new StartCommand());
+        registerSubCommand("start", new StartCommand(main));
         //registerSubCommand("help");
     }
 
