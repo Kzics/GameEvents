@@ -22,17 +22,26 @@ public class FishContestRunnable extends BukkitRunnable {
     public void run() {
 
         FishingLeaderboard leaderboard = fishingContest.getLeaderboard();
-
         for (Player player : Bukkit.getOnlinePlayers()) {
             int playerIndex = fishingContest.getLeaderboard().getIndex(player);
+            int timeLeft = fishingContest.getDuration() - duration;
 
-            player.sendActionBar(ColorsUtil.translate.apply(String.format("&eScore: %s (Position #%s)",
-                    fishingContest.getLeaderboard().getScore(playerIndex), leaderboard.getIndex(player))));
+            String timeLeftFormatted = String.format("%02d:%02d", timeLeft / 60, timeLeft % 60);
+
+            player.sendActionBar(ColorsUtil.translate.apply(String.format("&eScore: %s (Position #%s)  Time left: %s",
+                    fishingContest.getLeaderboard().getScore(playerIndex), leaderboard.getIndex(player), timeLeftFormatted)));
         }
+
 
         Player currentKing = null;
         if (!leaderboard.asList().isEmpty()) {
-            currentKing = leaderboard.getPlayer(1);
+            String kingEntry = leaderboard.asList().get(0);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if ((player.getName() + ": " + leaderboard.getScore(1)).equals(kingEntry)) {
+                    currentKing = player;
+                    break;
+                }
+            }
         }
 
         if (currentKing != null) {
@@ -45,6 +54,7 @@ public class FishContestRunnable extends BukkitRunnable {
 
         if (duration >= fishingContest.getDuration()) {
             fishingContest.end(leaderboard);
+            player.setGlowing(false);
             cancel();
             return;
         }

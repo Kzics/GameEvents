@@ -24,6 +24,9 @@ public class FishContestConfig {
         return (List<ItemStack>) fileConfiguration.getList("fish-contest.rewards");
     }
 
+    public void setReward(List<ItemStack> rewards){
+        fileConfiguration.set("fish-contest.rewards", rewards);
+    }
     public int getWinnersAmount(){
         return fileConfiguration.getInt("fish-contest.winners");
     }

@@ -1,6 +1,7 @@
 package com.fishcontest.obj;
 
 import com.fishcontest.utils.ColorsUtil;
+import com.fishcontest.utils.DefaultFontInfo;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

@@ -47,12 +47,13 @@ public class EventsManager {
         return false;
     }
 
-    public GameEvent getEvent(Class<? extends GameEvent> event){
+    public <T extends GameEvent> T getEvent(Class<T> eventClass){
         for(GameEvent e : activeEvents){
-            if(e.getClass().equals(event)){
-                return e;
+            if(e.getClass().equals(eventClass)){
+                return eventClass.cast(e);
             }
         }
         return null;
     }
+
 }

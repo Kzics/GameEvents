@@ -28,7 +28,9 @@ public class Main extends JavaPlugin {
         getCommand("events").setExecutor(new FishContestCommand(this));
 
         try {
-            copyStreamToFile(getResource("config.yml"), new File(getDataFolder(), "config.yml"));
+            if(!new File(getDataFolder(), "config.yml").exists()) {
+                copyStreamToFile(getResource("config.yml"), new File(getDataFolder(), "config.yml"));
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
