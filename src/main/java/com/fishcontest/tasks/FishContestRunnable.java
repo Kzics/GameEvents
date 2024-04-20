@@ -28,7 +28,7 @@ public class FishContestRunnable extends BukkitRunnable {
 
             String timeLeftFormatted = String.format("%02d:%02d", timeLeft / 60, timeLeft % 60);
 
-            player.sendMessage(ColorsUtil.translate.apply(String.format("&eScore: %s (Position #%s)  Time left: %s",
+            player.sendActionBar(ColorsUtil.translate.apply(String.format("&eScore: %s (Position #%s)  Time left: %s",
                     fishingContest.getLeaderboard().getScore(playerIndex), leaderboard.getIndex(player), timeLeftFormatted)));
         }
 

@@ -9,6 +9,7 @@ import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerAttemptPickupItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
@@ -31,7 +32,7 @@ public class EventsListeners implements Listener {
     public void onFish(PlayerFishEvent event){
         final Player player = event.getPlayer();
         if(event.getCaught() == null) return;
-        FishingContest contest = (FishingContest) main.getEventsManager().getEvent(FishingContest.class);
+        FishingContest contest = main.getEventsManager().getEvent(FishingContest.class);
         if(contest == null) return;
 
         ItemStack caughtItem = ((Item)event.getCaught()).getItemStack();
@@ -39,19 +40,33 @@ public class EventsListeners implements Listener {
         meta.getPersistentDataContainer().set(fishKey, PersistentDataType.STRING, "fish");
         caughtItem.setItemMeta(meta);
 
-
         if(event.getState().equals(PlayerFishEvent.State.CAUGHT_FISH)){
+            contest.getPlayerScores().put(player, contest.getPlayerScores().getOrDefault(player, 0) + 1);
         }else{
             System.out.println("not a fish");
         }
     }
 
     @EventHandler
+    public void onKill(EntityDamageByEntityEvent event){
+        if(event.getDamager() instanceof Player damager && event.getEntity() instanceof Player victim){
+            FishingContest contest = main.getEventsManager().getEvent(FishingContest.class);
+            if(contest == null) return;
+
+            int victimScore = contest.getPlayerScores().getOrDefault(victim, 0);
+            if(victimScore > 0) {
+                contest.getPlayerScores().put(victim, victimScore - 1);
+                contest.getPlayerScores().put(damager, contest.getPlayerScores().getOrDefault(damager, 0) + 1);
+            }
+        }
+    }
+
+    /*@EventHandler
     public void onItemDrop(PlayerDropItemEvent event) {
         Player player = event.getPlayer();
         final Item droppedItem = event.getItemDrop();
         if(!(droppedItem.getItemStack().getItemMeta().getPersistentDataContainer().has(fishKey, PersistentDataType.STRING))) return;
-        FishingContest contest = (FishingContest) main.getEventsManager().getEvent(FishingContest.class);
+        FishingContest contest = main.getEventsManager().getEvent(FishingContest.class);
         if(contest == null) return;
 
         contest.getPlayerScores().put(player, contest.getPlayerScores().getOrDefault(player, 0) - 1);
@@ -76,6 +91,6 @@ public class EventsListeners implements Listener {
         if(contest == null) return;
 
         contest.getPlayerScores().put(player, 0);
-    }
+    }*/
 }
 
